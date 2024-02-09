@@ -40,11 +40,21 @@ from sqlalchemy.orm import Session
 
 from . import crud, models, schemas
 from .database import SessionLocal, engine
-
+from fastapi.middleware.cors import CORSMiddleware
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Dependency
 def get_db():
@@ -64,6 +74,7 @@ def create_event(event: schemas.EventCreate, db: Session = Depends(get_db)):
 @app.get("/v1/events/", response_model=list[schemas.Event])
 def get_events(skip:int = 0, limit:int = 100, db: Session = Depends(get_db)):
     return crud.get_events(db, skip, limit)
+
 
 '''
 @app.get("/users/", response_model=list[schemas.User])
