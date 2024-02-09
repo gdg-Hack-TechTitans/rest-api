@@ -83,6 +83,14 @@ def get_event(event_id: int , db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return db_event
 
+@app.delete("/v1/events/{event_id}/", response_model=schemas.Event)
+def delete_event(event_id: int , db: Session = Depends(get_db)):
+    return crud.delete_event(db, event_id=event_id)
+
+@app.put("/v1/events/{event_id}/", response_model=schemas.Event)
+def update_event(event_id: int ,event: schemas.EventCreate, db: Session = Depends(get_db)):
+    return crud.update_event(db, event_id=event_id, event=event)
+
 
 
 '''

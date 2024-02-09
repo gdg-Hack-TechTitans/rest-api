@@ -91,6 +91,9 @@ class EventBase(BaseModel):
 class EventCreate(EventBase):
     pass
 
+class EventUpdate(EventBase):
+    pass
+
 class Event(EventBase):
     id: int
 
