@@ -75,6 +75,15 @@ def create_event(event: schemas.EventCreate, db: Session = Depends(get_db)):
 def get_events(skip:int = 0, limit:int = 100, db: Session = Depends(get_db)):
     return crud.get_events(db, skip, limit)
 
+@app.get("/v1/events/{event_id}/", response_model=schemas.Event)
+def get_event(event_id: int , db: Session = Depends(get_db)):
+    db_event= crud.get_event(db,event_id=event_id)
+    print(db_event)
+    if db_event is None: 
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_event
+
+
 
 '''
 @app.get("/users/", response_model=list[schemas.User])
