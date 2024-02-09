@@ -71,6 +71,8 @@ class Participant(Base):
     email = Column(String, index=True, unique=True)
     linkedin = Column(String)
     is_public = Column(Boolean, default=True)
+    password = Column(String, nullable=False)
+
 
 class ParticipantTeam(Base):
     __tablename__ = "participant_teams"
@@ -85,6 +87,8 @@ class Mentor(Base):
     name = Column(String, index=True)
     email = Column(String, index=True, unique=True)
     role = Column(String)
+    password = Column(String, nullable=False)
+
 
 class EventMentor(Base):
     __tablename__ = "event_mentors"
@@ -98,6 +102,8 @@ class Speaker(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, index=True)
     email = Column(String, index=True, unique=True)
+    password = Column(String, nullable=False)
+
 
 class EventSpeaker(Base):
     __tablename__ = "event_speakers"
@@ -137,7 +143,7 @@ class Judge(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, index=True)
     email = Column(String, index=True, unique=True)
-    password = Column(String)
+    password = Column(String, nullable=False)
 
 class EventJudge(Base):
     __tablename__ = "event_judges"
