@@ -1,6 +1,5 @@
 from app.utilities import generate_random_password, hash_password
 from sqlalchemy.orm import Session
-from passlib.hash import bcrypt
 from app import models
 from ..schemas import speakers_schemas
 

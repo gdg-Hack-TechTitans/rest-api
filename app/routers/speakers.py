@@ -29,7 +29,7 @@ def get_speakers(skip:int = 0, limit:int = 100, db: Session = Depends(get_db)):
 
 
 @speaker_router.get("/v1/speakers/{speaker_id}/", response_model=speakers_schemas.Speaker)
-def get_event(speaker_id: int , db: Session = Depends(get_db)):
+def get_speaker(speaker_id: int , db: Session = Depends(get_db)):
     db_speaker = speakers_crud.get_speaker(db,speaker_id=speaker_id)
     print(db_speaker)
     if db_speaker is None: 
@@ -37,21 +37,10 @@ def get_event(speaker_id: int , db: Session = Depends(get_db)):
     return db_speaker
 
 @speaker_router.delete("/v1/speakers/{speaker_id}/", response_model=speakers_schemas.Speaker)
-def delete_event(speaker_id: int , db: Session = Depends(get_db)):
+def delete_speaker(speaker_id: int , db: Session = Depends(get_db)):
     return speakers_crud.delete_speaker(db, speaker_id=speaker_id)
 
 @speaker_router.put("/v1/speakers/{speaker_id}/", response_model=speakers_schemas.Speaker)
-def update_event(speaker_id: int ,speaker: speakers_schemas.SpeakerCreate, db: Session = Depends(get_db)):
+def update_speaker(speaker_id: int ,speaker: speakers_schemas.SpeakerCreate, db: Session = Depends(get_db)):
     return speakers_crud.update_speaker(db, speaker_id=speaker_id, updated_speaker=speaker)
 
-
-
-'''
-
-
-
-
-@speaker_router.put("/v1/speakers/{speaker_id}/", response_model=speakers_crud.Speaker)
-def update_event(speaker_id: int ,event: speakers_crud.EventCreate, db: Session = Depends(get_db)):
-    return speakers_crud.update_event(db, speaker_id=speaker_id, event=event)
-'''

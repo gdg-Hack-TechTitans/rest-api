@@ -44,7 +44,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 models.Base.metadata.create_all(bind=engine)
-from .routers import events, mentors, fields, speakers
+from .routers import events, mentors, fields, speakers, judges
 
 app = FastAPI()
 
@@ -63,3 +63,4 @@ app.include_router(events.event_router)
 app.include_router(mentors.mentor_router)
 app.include_router(fields.field_router)
 app.include_router(speakers.speaker_router)
+app.include_router(judges.judges_router)

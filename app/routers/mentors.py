@@ -30,7 +30,7 @@ def get_mentors(skip:int = 0, limit:int = 100, db: Session = Depends(get_db)):
 
 
 @mentor_router.get("/v1/mentors/{mentor_id}/", response_model=mentors_schemas.Mentor)
-def get_event(mentor_id: int , db: Session = Depends(get_db)):
+def get_mentor(mentor_id: int , db: Session = Depends(get_db)):
     db_mentor = mentors_crud.get_mentor(db,mentor_id=mentor_id)
     print(db_mentor)
     if db_mentor is None: 
@@ -38,21 +38,10 @@ def get_event(mentor_id: int , db: Session = Depends(get_db)):
     return db_mentor
 
 @mentor_router.delete("/v1/mentors/{mentor_id}/", response_model=mentors_schemas.Mentor)
-def delete_event(mentor_id: int , db: Session = Depends(get_db)):
+def delete_mentor(mentor_id: int , db: Session = Depends(get_db)):
     return mentors_crud.delete_mentor(db, mentor_id=mentor_id)
 
 @mentor_router.put("/v1/mentors/{mentor_id}/", response_model=mentors_schemas.Mentor)
-def update_event(mentor_id: int ,mentor: mentors_schemas.MentorCreate, db: Session = Depends(get_db)):
+def update_mentor(mentor_id: int ,mentor: mentors_schemas.MentorCreate, db: Session = Depends(get_db)):
     return mentors_crud.update_mentor(db, mentor_id=mentor_id, updated_mentor=mentor)
 
-
-
-'''
-
-
-
-
-@mentor_router.put("/v1/mentors/{mentor_id}/", response_model=mentors_crud.Mentor)
-def update_event(mentor_id: int ,event: mentors_crud.EventCreate, db: Session = Depends(get_db)):
-    return mentors_crud.update_event(db, mentor_id=mentor_id, event=event)
-'''
