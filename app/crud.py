@@ -1,35 +1,14 @@
 from sqlalchemy.orm import Session
 from passlib.hash import bcrypt
 from . import models, schemas
+import bcrypt
+import secrets
+import string
 
-def get_event(db: Session, event_id: int):
-    return db.query(models.Event).filter(models.Event.id == event_id).first()
+def generate_random_password(length=12):
+    characters = string.ascii_letters + string.digits + string.punctuation
+    return ''.join(secrets.choice(characters) for _ in range(length))
 
-def get_events(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Event).offset(skip).limit(limit).all()
-
-def create_event(db: Session, event: schemas.EventCreate):
-    db_event = models.Event(**event.model_dump())
-    db.add(db_event)
-    db.commit()
-    db.refresh(db_event)
-    return db_event
-
-def delete_event(db: Session, event_id: int):
-    db_event = db.query(models.Event).filter(models.Event.id == event_id).first()
-    if db_event:
-        db.delete(db_event)
-        db.commit()
-    return db_event
-
-def update_event(db: Session, event_id: int, event: schemas.EventUpdate):
-    db_event = db.query(models.Event).filter(models.Event.id == event_id).first()
-    if db_event:
-        for key, value in event.dict().items():
-            setattr(db_event, key, value)
-        db.commit()
-        db.refresh(db_event)
-    return db_event
 
 def get_event_teams_with_participants(db: Session, event_id: int):
     return (
@@ -113,21 +92,24 @@ def create_participant(db: Session, participant: schemas.ParticipantCreate):
     db.refresh(db_participant)
     return db_participant
 
+
 def create_mentor(db: Session, mentor: schemas.MentorCreate):
-    hashed_password = bcrypt.hash(mentor.password)
-    db_mentor = models.Mentor(**mentor.model_dump(), hashed_password=hashed_password)
+    random_password = generate_random_password()
+    hashed_password = bcrypt.hashpw(random_password.encode('utf-8'), bcrypt.gensalt())
+    db_mentor = models.Mentor(**mentor.model_dump(), hashed_password=hashed_password.decode('utf-8'))
     db.add(db_mentor)
     db.commit()
     db.refresh(db_mentor)
-    return db_mentor
+    return db_mentor, random_password
 
 def create_speaker(db: Session, speaker: schemas.SpeakerCreate):
-    hashed_password = bcrypt.hash(speaker.password)
+    random_password = generate_random_password()
+    hashed_password = bcrypt.hashpw(random_password.encode('utf-8'), bcrypt.gensalt())
     db_speaker = models.Speaker(**speaker.model_dump(), hashed_password=hashed_password)
     db.add(db_speaker)
     db.commit()
     db.refresh(db_speaker)
-    return db_speaker
+    return db_speaker, random_password
 
 def create_field(db: Session, field: schemas.FieldCreate):
     db_field = models.Field(**field.model_dump())

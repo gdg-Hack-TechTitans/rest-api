@@ -39,9 +39,12 @@ from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
 from . import crud, models, schemas
-from .database import SessionLocal, engine
+from .database import SessionLocal, engine, get_db
 from fastapi.middleware.cors import CORSMiddleware
+
+
 models.Base.metadata.create_all(bind=engine)
+from .routers import events
 
 app = FastAPI()
 
@@ -56,42 +59,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+app.include_router(events.event_router)
 
 
 
 
-@app.post("/v1/events/", response_model=schemas.Event, status_code=201)
-def create_event(event: schemas.EventCreate, db: Session = Depends(get_db)):
-    return crud.create_event(db=db, event = event)
-
-@app.get("/v1/events/", response_model=list[schemas.Event])
-def get_events(skip:int = 0, limit:int = 100, db: Session = Depends(get_db)):
-    return crud.get_events(db, skip, limit)
-
-@app.get("/v1/events/{event_id}/", response_model=schemas.Event)
-def get_event(event_id: int , db: Session = Depends(get_db)):
-    db_event= crud.get_event(db,event_id=event_id)
-    print(db_event)
-    if db_event is None: 
-        raise HTTPException(status_code=404, detail="User not found")
-    return db_event
-
-@app.delete("/v1/events/{event_id}/", response_model=schemas.Event)
-def delete_event(event_id: int , db: Session = Depends(get_db)):
-    return crud.delete_event(db, event_id=event_id)
-
-@app.put("/v1/events/{event_id}/", response_model=schemas.Event)
-def update_event(event_id: int ,event: schemas.EventCreate, db: Session = Depends(get_db)):
-    return crud.update_event(db, event_id=event_id, event=event)
 
 
+# @app.post("/v1/mentors/", response_model=schemas.Event, status_code=201)
+# def create_event(mentor: schemas.MentorCreate, db: Session = Depends(get_db)):
+#     return crud.create_mentor(db=db, mentor=mentor)
 
 '''
 @app.get("/users/", response_model=list[schemas.User])
