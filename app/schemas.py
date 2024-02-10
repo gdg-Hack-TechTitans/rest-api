@@ -110,18 +110,7 @@ class Participant(ParticipantBase):
         from_attributes = True
 
 
-class SpeakerBase(BaseModel):
-    name: str
-    email: str
 
-class SpeakerCreate(SpeakerBase):
-    pass
-
-class Speaker(SpeakerBase):
-    id: int
-
-    class Config:
-        from_attributes = True
 
 class FieldBase(BaseModel):
     name: str
