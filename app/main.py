@@ -44,7 +44,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 models.Base.metadata.create_all(bind=engine)
-from .routers import events, mentors
+from .routers import events, mentors, fields
 
 app = FastAPI()
 
@@ -61,6 +61,7 @@ app.add_middleware(
 
 app.include_router(events.event_router)
 app.include_router(mentors.mentor_router)
+app.include_router(fields.field_router)
 
 
 
