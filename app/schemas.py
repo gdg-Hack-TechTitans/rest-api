@@ -154,19 +154,7 @@ class EventSubmissionCreate(EventSubmissionBase):
 class EventSubmission(EventSubmissionBase):
     pass
 
-class JudgeBase(BaseModel):
-    name: str
-    email: str
 
-class JudgeCreate(JudgeBase):
-    password: str
-
-
-class Judge(JudgeBase):
-    id: int
-
-    class Config:
-        from_attributes = True
 
 class EventJudgeBase(BaseModel):
     id_judge: int
