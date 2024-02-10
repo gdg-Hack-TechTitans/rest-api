@@ -39,9 +39,9 @@ uvicorn app.main:app --reload
 ```
 
 ## Documentation
-- **API Documentation**: Explore the API documentation to understand the available endpoints and how to interact with the platform. [API Docs]()
+- **API Documentation**: Explore the API documentation to understand the available endpoints and how to interact with the platform. [API Docs](https://ghach-rest-api.onrender.com/docs)
 
-- **Database Schema**: Check the database schema documentation for insights into the data structure and relationships. [Database Schema]()
+- **Database Schema**: Check the database schema documentation for insights into the data structure and relationships. [Database Schema](https://excalidraw.com/#json=7lyGg97dhwtmK1w2mc6i_,c28nssDTMMHEqKL5G-hUPA)
 
 ## Contributing
 We welcome contributions to enhance the platform. Feel free to submit issues, feature requests, or pull requests to help make this project even better.
