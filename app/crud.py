@@ -1,13 +1,6 @@
 from sqlalchemy.orm import Session
 from passlib.hash import bcrypt
 from . import models, schemas
-import bcrypt
-import secrets
-import string
-
-def generate_random_password(length=12):
-    characters = string.ascii_letters + string.digits + string.punctuation
-    return ''.join(secrets.choice(characters) for _ in range(length))
 
 
 def get_event_teams_with_participants(db: Session, event_id: int):
@@ -93,14 +86,14 @@ def create_participant(db: Session, participant: schemas.ParticipantCreate):
     return db_participant
 
 
-def create_mentor(db: Session, mentor: schemas.MentorCreate):
-    random_password = generate_random_password()
-    hashed_password = bcrypt.hashpw(random_password.encode('utf-8'), bcrypt.gensalt())
-    db_mentor = models.Mentor(**mentor.model_dump(), hashed_password=hashed_password.decode('utf-8'))
-    db.add(db_mentor)
-    db.commit()
-    db.refresh(db_mentor)
-    return db_mentor, random_password
+# def create_mentor(db: Session, mentor: schemas.MentorCreate):
+#     random_password = generate_random_password()
+#     hashed_password = bcrypt.hashpw(random_password.encode('utf-8'), bcrypt.gensalt())
+#     db_mentor = models.Mentor(**mentor.model_dump(), hashed_password=hashed_password.decode('utf-8'))
+#     db.add(db_mentor)
+#     db.commit()
+#     db.refresh(db_mentor)
+#     return db_mentor, random_password
 
 def create_speaker(db: Session, speaker: schemas.SpeakerCreate):
     random_password = generate_random_password()

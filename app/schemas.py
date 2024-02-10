@@ -127,19 +127,6 @@ class Participant(ParticipantBase):
     class Config:
         from_attributes = True
 
-class MentorBase(BaseModel):
-    name: str
-    email: str
-    role: str
-
-class MentorCreate(MentorBase):
-    pass
-
-class Mentor(MentorBase):
-    id: int
-
-    class Config:
-        from_attributes = True
 
 class SpeakerBase(BaseModel):
     name: str
